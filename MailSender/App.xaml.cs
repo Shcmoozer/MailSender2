@@ -5,6 +5,8 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using MailSender.Interfaces;
+using MailSender.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WpfMailSender.ViewModels;
@@ -41,6 +43,7 @@ namespace MailSender
             // В переменной host хранится информация, на пример,
             // о пути запуска нашего приложения
             services.AddSingleton<MainWindowViewModel>();
+            services.AddTransient<IMailService, SmtpMailService>();
         }
 
 

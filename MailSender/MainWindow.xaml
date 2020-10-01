@@ -175,7 +175,7 @@
                             <UniformGrid Columns="1" Margin="5">
                                 <Button Content="Запланировать"/>
                                 <Button Content="Отправить сейчас"
-                                        Click="OnSendNowButtonClick"/>
+                                        Command="{Binding SendMailMessageCommand}"/>
                             </UniformGrid>
                         </StackPanel>
                     </GroupBox>

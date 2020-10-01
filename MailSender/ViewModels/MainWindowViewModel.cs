@@ -12,12 +12,20 @@ using Microsoft.Extensions.DependencyInjection;
 using WpfMailSender.Data;
 using WpfMailSender.Models;
 using System.Linq;
+using MailSender.Interfaces;
 
 
 namespace WpfMailSender.ViewModels
 {
     class MainWindowViewModel : ViewModel
     {
+        private readonly IMailService _MailService;
+        public MainWindowViewModel(IMailService MailService)
+        {
+            _MailService = MailService;
+        }
+
+
         public StatisticViewModel Statistic { get; } = new StatisticViewModel();
 
         private string _Title = "Рассыльщик почты";
@@ -187,6 +195,31 @@ namespace WpfMailSender.ViewModels
             Servers.Remove(server);
         }
 
+        private ICommand _SendMailMessageCommand;
+        public ICommand SendMailMessageCommand => _SendMailMessageCommand
+            ??= new LambdaCommand(
+                OnSendMailMessageCommandExecuted,
+                CanSendMailMessageCommandExecute);
+        private bool CanSendMailMessageCommandExecute(object p)
+        {
+            return SelectedServer != null
+                   && SelectedSender != null
+                   && SelectedRecipient != null
+                   && SelectedMessage != null;
+        }
+        private void OnSendMailMessageCommandExecuted(object p)
+        {
+            var server = SelectedServer;
+            var client = _MailService.GetSender(
+                server.Address, server.Port, server.UseSSL,
+                server.Login, server.Password);
+            var sender = SelectedSender;
+            var recipient = SelectedRecipient;
+            var message = SelectedMessage;
+            client.Send(
+                server.Address, recipient.Address,
+                message.Tittle, message.Body);
+        }
 
         //далее тестовый код
         //private ICommand _ShowDialogCommand;

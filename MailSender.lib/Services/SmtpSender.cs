@@ -5,11 +5,12 @@ using WpfMailSender.Models;
 using System.Diagnostics;
 using System.Net;
 using System.Net.Mail;
+using MailSender.Interfaces;
 
 
 namespace WpfMailSender.Services
 {
-    public class SmtpSender
+    public class SmtpSender : IMailSender
     {
         private readonly string _Address;
         private readonly int _Port;
