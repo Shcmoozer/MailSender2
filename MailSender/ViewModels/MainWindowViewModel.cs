@@ -13,6 +13,7 @@ using WpfMailSender.Data;
 using WpfMailSender.Models;
 using System.Linq;
 using MailSender.Interfaces;
+using WpfMailSender.Services;
 
 
 namespace WpfMailSender.ViewModels
@@ -20,10 +21,22 @@ namespace WpfMailSender.ViewModels
     class MainWindowViewModel : ViewModel
     {
         private readonly IMailService _MailService;
-        public MainWindowViewModel(IMailService MailService)
+        private readonly IServerStorage _ServerStorage;
+        private readonly ISendersStorage _SendersStorage;
+        private readonly IRecipientsStorage _RecipientsStorage;
+        private readonly IMessagesStorage _MessagesStorage;
+        public MainWindowViewModel(
+            IMailService MailService,
+            IServerStorage ServerStorage, ISendersStorage SendersStorage,
+            IRecipientsStorage RecipientsStorage, IMessagesStorage MessagesStorage)
         {
             _MailService = MailService;
+            _ServerStorage = ServerStorage;
+            _SendersStorage = SendersStorage;
+            _RecipientsStorage = RecipientsStorage;
+            _MessagesStorage = MessagesStorage;
         }
+
 
 
         public StatisticViewModel Statistic { get; } = new StatisticViewModel();
@@ -101,13 +114,22 @@ namespace WpfMailSender.ViewModels
             ??= new LambdaCommand(OnLoadDataCommandExecuted);
         private void OnLoadDataCommandExecuted(object p)
         {
-            var data = File.Exists("")
-                ? TestData.LoadFromXML("")
-                : new TestData();
-            Servers = new ObservableCollection<Server>(data.Servers);
-            Senders = new ObservableCollection<Sender>(data.Senders);
-            Recipients = new ObservableCollection<Recipient>(data.Recipients);
-            Messages = new ObservableCollection<Message>(data.Messages);
+            _ServerStorage.Load();
+            _RecipientsStorage.Load();
+            _ServerStorage.Load();
+            _MessagesStorage.Load();
+
+            Servers = new ObservableCollection<Server>(_ServerStorage.Items);
+            Senders = new ObservableCollection<Sender>(_SendersStorage.Items);
+            Recipients = new ObservableCollection<Recipient>(_RecipientsStorage.Items);
+            Messages = new ObservableCollection<Message>(_MessagesStorage.Items);
+            //var data = File.Exists("")
+            //    ? TestData.LoadFromXML("")
+            //    : new TestData();
+            //Servers = new ObservableCollection<Server>(data.Servers);
+            //Senders = new ObservableCollection<Sender>(data.Senders);
+            //Recipients = new ObservableCollection<Recipient>(data.Recipients);
+            //Messages = new ObservableCollection<Message>(data.Messages);
         }
 
         private ICommand _SaveDataCommand;
@@ -116,14 +138,19 @@ namespace WpfMailSender.ViewModels
 
         private void OnSaveDataCommandExecuted(object p)
         {
-            var data = new TestData
-            {
-                Servers = Servers,
-                Senders = Senders,
-                Recipients = Recipients,
-                Messages = Messages
-            };
-            data.SaveToXML("");
+            _ServerStorage.SaveChanges();
+            _SendersStorage.SaveChanges();
+            _RecipientsStorage.SaveChanges();
+            _MessagesStorage.SaveChanges();
+
+            //var data = new TestData
+            //{
+            //    Servers = Servers,
+            //    Senders = Senders,
+            //    Recipients = Recipients,
+            //    Messages = Messages
+            //};
+            //data.SaveToXML("");
         }
 
         private ICommand _CreateServerCommand;
@@ -152,6 +179,9 @@ namespace WpfMailSender.ViewModels
                 Login = login,
                 Password = password
             };
+
+            _ServerStorage.Items.Add(server);
+            Servers.Add(server);
         }
 
         private ICommand _EditServerCommand;
@@ -192,7 +222,9 @@ namespace WpfMailSender.ViewModels
         private void OnDeleteServerCommandExecuted(object p)
         {
             if (!(p is Server server)) return;
+            _ServerStorage.Items.Remove(server);
             Servers.Remove(server);
+
         }
 
         private ICommand _SendMailMessageCommand;
