@@ -217,7 +217,7 @@ namespace WpfMailSender.ViewModels
             var recipient = SelectedRecipient;
             var message = SelectedMessage;
             client.Send(
-                server.Address, recipient.Address,
+                sender.Address, recipient.Address,
                 message.Tittle, message.Body);
         }
 

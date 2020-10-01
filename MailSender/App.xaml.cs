@@ -43,7 +43,12 @@ namespace MailSender
             // В переменной host хранится информация, на пример,
             // о пути запуска нашего приложения
             services.AddSingleton<MainWindowViewModel>();
+            //services.AddTransient<IMailService, SmtpMailService>();
+#if DEBUG
             services.AddTransient<IMailService, SmtpMailService>();
+#else
+            services.AddTransient<IMailService, SmtpMailService>();
+#endif
         }
 
 
