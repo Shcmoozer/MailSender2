@@ -10,6 +10,7 @@
         xmlns:vm="clr-namespace:WpfMailSender.ViewModels"
         xmlns:cmd="clr-namespace:WpfMailSender.Infrastructure.Commands"
         mc:Ignorable="d"
+        xmlns:views="clr-namespace:WpfMailSender.Views"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -142,7 +143,8 @@
                                     Foreground="Indigo"/>
                         </ToolBar>
                     </ToolBarTray>
-                    <DataGrid Grid.Row="1" Name="RecipientsList"
+                    <views:RecipientsListView Grid.Row="1"/>
+                    <!--<DataGrid Grid.Row="1" Name="RecipientsList"
                               ItemsSource="{Binding Recipients}"
                               SelectedItem="{Binding SelectedRecipient}"
                               AutoGenerateColumns="False"
@@ -159,7 +161,7 @@
                             <DataGridTextColumn Header="Описание" Width="*"
                                                 Binding="{Binding Description}"/>
                         </DataGrid.Columns>
-                    </DataGrid>
+                    </DataGrid>-->
                 </Grid>
             </TabItem>
             <TabItem Header="Планировщик">
