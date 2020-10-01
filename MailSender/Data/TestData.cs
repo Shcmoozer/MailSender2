@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Linq;
+using System.Xml.Serialization;
 using WpfMailSender.Models;
 
 
@@ -9,7 +11,20 @@ namespace WpfMailSender.Data
 {
     class TestData
     {
-        public static IList<Server> Servers { get; } = new List<Server>
+        public static TestData LoadFromXML(string FileName)
+        {
+            var serializer = new XmlSerializer(typeof(TestData));
+            using var file = File.OpenText(FileName);
+            return (TestData)serializer.Deserialize(file);
+        }
+        public void SaveToXML(string FileName)
+        {
+            var serializer = new XmlSerializer(typeof(TestData));
+            using var file = File.Create(FileName);
+            serializer.Serialize(file, this);
+        }
+
+        public IList<Server> Servers { get; set; } = new List<Server>
         {
             new Server
             {
@@ -43,7 +58,7 @@ namespace WpfMailSender.Data
             }//,
         };
 
-        public static IList<Sender> Senders { get; } = new List<Sender>
+        public IList<Sender> Senders { get; set; } = new List<Sender>
         {
             new Sender
             {
@@ -69,7 +84,7 @@ namespace WpfMailSender.Data
 
         };
 
-        public static IList<Recipient> Recipients { get; } = new List<Recipient>
+        public IList<Recipient> Recipients { get; set; } = new List<Recipient>
         {
             new Recipient
             {
@@ -94,7 +109,7 @@ namespace WpfMailSender.Data
             }//,
         };
 
-        public static IList<Message> Messages { get; } = Enumerable
+        public IList<Message> Messages { get; set; } = Enumerable
             .Range(1, 10)
             .Select(i => new Message
             {

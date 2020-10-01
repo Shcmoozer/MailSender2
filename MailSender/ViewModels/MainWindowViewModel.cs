@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Text;
 using WpfMailSender.ViewModels.Base;
 using WpfMailSender.Infrastructure.Commands;
@@ -92,11 +93,100 @@ namespace WpfMailSender.ViewModels
             ??= new LambdaCommand(OnLoadDataCommandExecuted);
         private void OnLoadDataCommandExecuted(object p)
         {
-            Servers = new ObservableCollection<Server>(TestData.Servers);
-            Senders = new ObservableCollection<Sender>(TestData.Senders);
-            Recipients = new ObservableCollection<Recipient>(TestData.Recipients);
-            Messages = new ObservableCollection<Message>(TestData.Messages);
+            var data = File.Exists("")
+                ? TestData.LoadFromXML("")
+                : new TestData();
+            Servers = new ObservableCollection<Server>(data.Servers);
+            Senders = new ObservableCollection<Sender>(data.Senders);
+            Recipients = new ObservableCollection<Recipient>(data.Recipients);
+            Messages = new ObservableCollection<Message>(data.Messages);
         }
+
+        private ICommand _SaveDataCommand;
+        public ICommand SaveDataCommand => _SaveDataCommand
+            ??= new LambdaCommand(OnSaveDataCommandExecuted);
+
+        private void OnSaveDataCommandExecuted(object p)
+        {
+            var data = new TestData
+            {
+                Servers = Servers,
+                Senders = Senders,
+                Recipients = Recipients,
+                Messages = Messages
+            };
+            data.SaveToXML("");
+        }
+
+        private ICommand _CreateServerCommand;
+        public ICommand CreateServerCommand => _CreateServerCommand
+            ??= new LambdaCommand(OnCreateServerCommandExecuted);
+
+        private void OnCreateServerCommandExecuted(object p)
+        {
+            if (!ServerEditDialog.Create(
+                out var name,
+                out var address,
+                out var port,
+                out var ssl,
+                out var description,
+                out var login,
+                out var password))
+                return;
+            var server = new Server
+            {
+                Id = Servers.DefaultIfEmpty().Max(s => s?.Id ?? 0) + 1,
+                Name = name,
+                Address = address,
+                Port = port,
+                UseSSL = ssl,
+                Description = description,
+                Login = login,
+                Password = password
+            };
+        }
+
+        private ICommand _EditServerCommand;
+        public ICommand EditServerCommand => _EditServerCommand
+            ??= new LambdaCommand(OnEditServerCommandExecuted,
+                CanEditServerCommandExecute);
+        private bool CanEditServerCommandExecute(object p) => p is Server;
+        private void OnEditServerCommandExecuted(object p)
+        {
+            if (!(p is Server server)) return;
+            var name = server.Name;
+            var address = server.Address;
+            var port = server.Port;
+            var ssl = server.UseSSL;
+            var description = server.Description;
+            var login = server.Login;
+            var password = server.Password;
+            if (!ServerEditDialog.ShowDialog("Редактирование сервера",
+                ref name,
+                ref address, ref port, ref ssl,
+                ref description,
+                ref login, ref password))
+                return;
+            server.Name = name;
+            server.Address = address;
+            server.Port = port;
+            server.UseSSL = ssl;
+            server.Description = description;
+            server.Login = login;
+            server.Password = password;
+        }
+
+        private ICommand _DeleteServerCommand;
+        public ICommand DeleteServerCommand => _DeleteServerCommand
+            ??= new LambdaCommand(OnDeleteServerCommandExecuted,
+                CanDeleteServerCommandExecute);
+        private bool CanDeleteServerCommandExecute(object p) => p is Server;
+        private void OnDeleteServerCommandExecuted(object p)
+        {
+            if (!(p is Server server)) return;
+            Servers.Remove(server);
+        }
+
 
         //далее тестовый код
         //private ICommand _ShowDialogCommand;
