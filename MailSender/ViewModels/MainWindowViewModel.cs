@@ -226,7 +226,7 @@ namespace WpfMailSender.ViewModels
             Servers.Remove(server);
 
         }
-
+        //22
         private ICommand _SendMailMessageCommand;
         public ICommand SendMailMessageCommand => _SendMailMessageCommand
             ??= new LambdaCommand(
