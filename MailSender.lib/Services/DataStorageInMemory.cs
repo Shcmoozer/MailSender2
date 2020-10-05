@@ -31,11 +31,11 @@ namespace MailSender.Services
                     new Server
                     {
                         Id = 1,
-                        Name = "Яндекс",
-                        Address = "smpt.yandex.ru",
-                        Port = 465,
+                        Name = "mail",
+                        Address = "smtp.mail.ru",
+                        Port = 25,
                         UseSSL = true,
-                        Login = "user@yandex.ru",
+                        Login = "pns95@mail.ru",
                         Password = "PassWord",
                     },
                     new Server
@@ -55,9 +55,9 @@ namespace MailSender.Services
                     new Sender
                     {
                         Id = 1,
-                        Name = "Иванов",
-                        Address = "ivanov@server.ru",
-                        Description = "Почта от Иванова"
+                        Name = "Nika",
+                        Address = "pns95@mail.ru",
+                        Description = "Почта от Nika"
                     },
                     new Sender
                     {
@@ -80,9 +80,9 @@ namespace MailSender.Services
                     new Recipient
                     {
                         Id = 1,
-                        Name = "Иванов",
-                        Address = "ivanov@server.ru",
-                        Description = "Почта для Иванова"
+                        Name = "Reznov",
+                        Address = "pns9595@mail.ru",
+                        Description = "Почта для Reznova"
                     },
                     new Recipient
                     {
