@@ -142,26 +142,28 @@
                                     fa:Awesome.Content="Solid_Clock"
                                     Foreground="Indigo"/>
                         </ToolBar>
+                        <ToolBar Header="Получатели" Band="1">
+                            <Button ToolTip="Добавить">
+                                <StackPanel Orientation="Horizontal">
+                                    <fa:ImageAwesome Icon="Solid_Plus" Height="12" Foreground="Green"/>
+                                    <TextBlock Text="Добавить получателя" Margin="5,0,0,0"/>
+                                </StackPanel>
+                            </Button>
+                            <Button fa:Awesome.Content="Solid_Edit" Foreground="SaddleBrown" 
+                                    ToolTip="Редактировать"/>
+                            <Button fa:Awesome.Content="Regular_TrashAlt" Foreground="Red"
+                                    ToolTip="Удалить"/>
+                        </ToolBar>
                     </ToolBarTray>
-                    <views:RecipientsListView Grid.Row="1"/>
-                    <!--<DataGrid Grid.Row="1" Name="RecipientsList"
-                              ItemsSource="{Binding Recipients}"
-                              SelectedItem="{Binding SelectedRecipient}"
-                              AutoGenerateColumns="False"
-                              GridLinesVisibility="Vertical"
-                              AlternatingRowBackground="PaleGreen"
-                              VerticalGridLinesBrush="Gray">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID"
-                                                Binding="{Binding Id}"/>
-                            <DataGridTextColumn Header="Имя" MinWidth="120"
-                                                Binding="{Binding Name}"/>
-                            <DataGridTextColumn Header="Адрес" MinWidth="150" 
-                                                Binding="{Binding Address}"/>
-                            <DataGridTextColumn Header="Описание" Width="*"
-                                                Binding="{Binding Description}"/>
-                        </DataGrid.Columns>
-                    </DataGrid>-->
+                    <!--<views:RecipientsListView Grid.Row="1"/>-->
+                    <Grid  Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        <views:RecipientsListView/>
+                        <views:RecipientEditor Grid.Column="1"/>
+                    </Grid>
                 </Grid>
             </TabItem>
             <TabItem Header="Планировщик">
