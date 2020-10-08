@@ -62,25 +62,10 @@ namespace MailSender
             //services.AddSingleton<ISendersStorage>(file_storage);
             //services.AddSingleton<IRecipientsStorage>(file_storage);
             //services.AddSingleton<IMessagesStorage>(file_storage);
+
+            services.AddSingleton<IEncryptorService, Rfc2898Encryptor>();
         }
 
-
-        //из тестового приложения
-        //private static IServiceProvider _Services;
-        //public static IServiceProvider ServicesTest => _Services
-        //    ??= GetServices().BuildServiceProvider();
-        //private static IServiceCollection GetServices()
-        //{
-        //    var services = new ServiceCollection();
-        //    InitializeServices(services);
-        //    return services;
-        //}
-        //private static void InitializeServices(IServiceCollection services)
-        //{
-        //    services.AddTransient<IDialogService, WindowDialog>();
-        //    //services.AddScoped<IDialogService, WindowDialog>();
-        //    //services.AddSingleton<IDialogService, WindowDialog>();
-        //}
     }
 
     //interface IDialogService
