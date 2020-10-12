@@ -8,28 +8,35 @@ namespace ConsoleTests
     {
         static void Main(string[] args)
         {
-            var from = new MailAddress("pns95@mail.ru", "Павел");
-            var to = new MailAddress("pns9595@mail.ru", "Павел");
-            
+            //var from = new MailAddress("pns95@mail.ru", "Павел");
+            //var to = new MailAddress("pns9595@mail.ru", "Павел");
 
-            var message = new MailMessage(from, to);
-            //var msg = new MailAddress("user@server.ru", "qwe@ASD.ru");
 
-            message.Subject = "Заголовок письма от " + DateTime.Now;
-            message.Body = "Текст тестового письма + " + DateTime.Now;
+            //var message = new MailMessage(from, to);
+            ////var msg = new MailAddress("user@server.ru", "qwe@ASD.ru");
 
-            var client = new SmtpClient("smtp.mail.ru", 25);
-            client.EnableSsl = true;
+            //message.Subject = "Заголовок письма от " + DateTime.Now;
+            //message.Body = "Текст тестового письма + " + DateTime.Now;
 
-            client.Credentials = new NetworkCredential
-            {
-                UserName = "",
-                Password = ""
-            };
+            //var client = new SmtpClient("smtp.mail.ru", 25);
+            //client.EnableSsl = true;
 
-            client.Send(message);
+            //client.Credentials = new NetworkCredential
+            //{
+            //    UserName = "",
+            //    Password = ""
+            //};
 
-            Console.WriteLine("Hello World!");
+            //client.Send(message);
+
+            //Console.WriteLine("Hello World!");
+
+            //ThreadTests.Start();
+            //CriticalSectionTests.Start();
+            ThreadPoolTests.Start();
+
+            Console.WriteLine("Главный поток работу закончил!");
+            Console.ReadLine();
         }
     }
 }

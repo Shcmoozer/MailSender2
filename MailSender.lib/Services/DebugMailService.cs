@@ -38,6 +38,17 @@ namespace MailSender.Services
                 Debug.WriteLine("Отправка письма от:{0} к:{1}\r\n\t{2}\r\n{3}",
                     From, To, Title, Message);
             }
+
+            public void Send(string From, IEnumerable<string> To, string Title, string Message)
+            {
+                foreach (var recipient_address in To)
+                    Send(From, recipient_address, Title, Message);
+            }
+
+            public void SendParallel(string From, IEnumerable<string> To, string Title, string Message)
+            {
+                Send(From, To, Title, Message);
+            }
         }
 
     }

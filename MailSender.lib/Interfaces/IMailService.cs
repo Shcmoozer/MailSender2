@@ -17,7 +17,12 @@ namespace MailSender.Interfaces
             void Send(
                 string From, string To,
                 string Title, string Message);
-        }
+            void Send(string From, IEnumerable<string> To, 
+                string Title, string Message);
+
+            void SendParallel(string From, IEnumerable<string> To, 
+                string Title, string Message);
+    }
 
         public interface IStorage<T>
         {
