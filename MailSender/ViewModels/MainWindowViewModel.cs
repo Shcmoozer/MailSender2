@@ -20,24 +20,42 @@ namespace WpfMailSender.ViewModels
 {
     partial class MainWindowViewModel : ViewModel
     {
+
+        
+        private readonly IStore<Recipient> _RecipientsStore;
         private readonly IMailService _MailService;
         private readonly IServerStorage _ServerStorage;
         private readonly ISendersStorage _SendersStorage;
         private readonly IRecipientsStorage _RecipientsStorage;
         private readonly IMessagesStorage _MessagesStorage;
-        public MainWindowViewModel(
-            IMailService MailService,
-            IServerStorage ServerStorage, ISendersStorage SendersStorage,
-            IRecipientsStorage RecipientsStorage, IMessagesStorage MessagesStorage)
+        //public MainWindowViewModel(
+        //    IMailService MailService,
+        //    IServerStorage ServerStorage, ISendersStorage SendersStorage,
+        //    IRecipientsStorage RecipientsStorage, IMessagesStorage MessagesStorage)
+        //{
+        //    _MailService = MailService;
+        //    _ServerStorage = ServerStorage;
+        //    _SendersStorage = SendersStorage;
+        //    _RecipientsStorage = RecipientsStorage;
+        //    _MessagesStorage = MessagesStorage;
+        //}
+
+        public MainWindowViewModel(IMailService MailService, IStore<Recipient> RecipientsStore, IServerStorage ServerStorage, 
+            ISendersStorage SendersStorage, IMessagesStorage MessagesStorage)
         {
+
+            // Unit of Work
             _MailService = MailService;
+            //_RecipientsStore = RecipientsStore;
             _ServerStorage = ServerStorage;
             _SendersStorage = SendersStorage;
-            _RecipientsStorage = RecipientsStorage;
             _MessagesStorage = MessagesStorage;
+            //Servers = new ObservableCollection<Server>(Servers);
+            //Senders = new ObservableCollection<Sender>(Senders);
+            Recipients = new ObservableCollection<Recipient>(RecipientsStore.GetAll());
+            //Messages = new ObservableCollection<Message>(Messages);
+
         }
-
-
 
         public StatisticViewModel Statistic { get; } = new StatisticViewModel();
 

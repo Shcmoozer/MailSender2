@@ -7,10 +7,15 @@ using System.Threading.Tasks;
 using System.Windows;
 using MailSender.Interfaces;
 using MailSender.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using WpfMailSender.Data;
+using WpfMailSender.Data.Stores.InDB;
+using WpfMailSender.Data.Stores.InMemory;
+using WpfMailSender.Models;
 using WpfMailSender.ViewModels;
 
 namespace MailSender
@@ -57,6 +62,18 @@ namespace MailSender
 #else
             services.AddTransient<IMailService, SmtpMailService>();
 #endif
+
+            services.AddSingleton<IEncryptorService, Rfc2898Encryptor>();
+
+            services.AddDbContext<MailSenderDB>(opt => opt
+                .UseSqlServer(host.Configuration.GetConnectionString("Default")));
+            services.AddTransient<MailSenderDbInitializer>();
+
+            //services.AddSingleton<IStore<Recipient>, RecipientsStoreInMemory>();
+            services.AddSingleton<IStore<Recipient>, RecipientsStoreInDB>();
+            //...
+
+
             // Выбираем либо этот блок
             var memory_store = new DataStorageInMemory();
             services.AddSingleton<IServerStorage>(memory_store);
@@ -74,18 +91,22 @@ namespace MailSender
             services.AddSingleton<IEncryptorService, Rfc2898Encryptor>();
         }
 
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            Services.GetRequiredService<MailSenderDbInitializer>().Initialize();
+            base.OnStartup(e);
+
+            //using (var db = Services.GetRequiredService<MailSenderDB>())
+            //{
+            //    var to_remove = db.SchedulerTasks.Where(task => task.Time < DateTime.Now);
+            //    if(to_remove.Any())
+            //    {
+            //        db.SchedulerTasks.RemoveRange(to_remove);
+            //        db.SaveChanges();
+            //    }
+            //}
+        }
+
     }
-
-    //interface IDialogService
-    //{
-    //    void ShowInfo(string msg);
-    //}
-
-    //class WindowDialog : IDialogService
-    //{
-    //    public void ShowInfo(string msg) => MessageBox.Show(msg);
-    //}
-
-
 
 }

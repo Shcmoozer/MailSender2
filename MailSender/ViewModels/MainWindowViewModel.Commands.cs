@@ -18,14 +18,16 @@ namespace WpfMailSender.ViewModels
         private void OnLoadDataCommandExecuted(object p)
         {
             _ServerStorage.Load();
-            _RecipientsStorage.Load();
-            _ServerStorage.Load();
+            //_RecipientsStorage.Load();
+            _SendersStorage.Load();
             _MessagesStorage.Load();
 
             Servers = new ObservableCollection<Server>(_ServerStorage.Items);
             Senders = new ObservableCollection<Sender>(_SendersStorage.Items);
-            Recipients = new ObservableCollection<Recipient>(_RecipientsStorage.Items);
+            //Recipients = new ObservableCollection<Recipient>(_RecipientsStorage.Items);
             Messages = new ObservableCollection<Message>(_MessagesStorage.Items);
+            
+            
             //var data = File.Exists("")
             //    ? TestData.LoadFromXML("")
             //    : new TestData();
