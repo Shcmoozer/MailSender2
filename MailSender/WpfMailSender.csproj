@@ -30,8 +30,4 @@
     <ProjectReference Include="..\MailSender.lib\MailSender.lib.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Data\Migrations\" />
-  </ItemGroup>
-
 </Project>

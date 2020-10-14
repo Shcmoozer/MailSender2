@@ -17,7 +17,7 @@ namespace WpfMailSender.Data
 
         public DbSet<Message> Messages { get; set; }
 
-        //public DbSet<SchedulerTask> SchedulerTasks { get; set; }
+        public DbSet<SchedulerTask> SchedulerTasks { get; set; }
 
         public MailSenderDB(DbContextOptions<MailSenderDB> opt) : base(opt) { }
 
