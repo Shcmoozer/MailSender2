@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Net;
 using System.Net.Mail;
 using System.Threading;
+using System.Threading.Tasks;
 using MailSender.Interfaces;
 
 
@@ -56,6 +57,24 @@ namespace WpfMailSender.Services
         {
             foreach (var recipient_address in RecipientsAddresses)
                 ThreadPool.QueueUserWorkItem(o => Send(SenderAddress, recipient_address, Subject, Body));
+        }
+
+        public async Task SendAsync(string SenderAddress, string RecipientAddress, string Subject, string Body,
+            CancellationToken Cancel = default)
+        {
+            
+        }
+
+        public async Task SendAsync(string SenderAddress, IEnumerable<string> RecipientsAddresses, string Subject, string Body,
+            IProgress<(string Recipient, double Percent)> Progress = null, CancellationToken Cancel = default)
+        {
+           
+        }
+
+        public async Task SendParallelAsync(string SenderAddress, IEnumerable<string> RecipientsAddresses, string Subject, string Body,
+            CancellationToken Cancel = default)
+        {
+            
         }
     }
 }
