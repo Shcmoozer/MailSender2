@@ -13,28 +13,18 @@ namespace WpfMailSender.ViewModels
     partial class MainWindowViewModel
     {
         private ICommand _LoadDataCommand;
+
         public ICommand LoadDataCommand => _LoadDataCommand
-            ??= new LambdaCommand(OnLoadDataCommandExecuted);
+            ??= new LambdaCommand(OnLoadDataCommandExecuted, CanLoadDataCommandExecute);
+
+        private bool CanLoadDataCommandExecute(object p) => true;
+
         private void OnLoadDataCommandExecuted(object p)
         {
-            _ServerStorage.Load();
-            //_RecipientsStorage.Load();
-            _SendersStorage.Load();
-            _MessagesStorage.Load();
-
-            Servers = new ObservableCollection<Server>(_ServerStorage.Items);
-            Senders = new ObservableCollection<Sender>(_SendersStorage.Items);
-            //Recipients = new ObservableCollection<Recipient>(_RecipientsStorage.Items);
-            Messages = new ObservableCollection<Message>(_MessagesStorage.Items);
-            
-            
-            //var data = File.Exists("")
-            //    ? TestData.LoadFromXML("")
-            //    : new TestData();
-            //Servers = new ObservableCollection<Server>(data.Servers);
-            //Senders = new ObservableCollection<Sender>(data.Senders);
-            //Recipients = new ObservableCollection<Recipient>(data.Recipients);
-            //Messages = new ObservableCollection<Message>(data.Messages);
+            Servers = new ObservableCollection<Server>(_ServersStore.GetAll());
+            Senders = new ObservableCollection<Sender>(_SendersStore.GetAll());
+            Recipients = new ObservableCollection<Recipient>(_RecipientsStore.GetAll());
+            Messages = new ObservableCollection<Message>(_MessagesStore.GetAll());
         }
 
         private ICommand _SaveDataCommand;
@@ -43,19 +33,11 @@ namespace WpfMailSender.ViewModels
 
         private void OnSaveDataCommandExecuted(object p)
         {
-            _ServerStorage.SaveChanges();
-            _SendersStorage.SaveChanges();
-            _RecipientsStorage.SaveChanges();
-            _MessagesStorage.SaveChanges();
+            _ServersStore.Update(SelectedServer);
+            _SendersStore.Update(SelectedSender);
+            _RecipientsStore.Update(SelectedRecipient);
+            _MessagesStore.Update(SelectedMessage);
 
-            //var data = new TestData
-            //{
-            //    Servers = Servers,
-            //    Senders = Senders,
-            //    Recipients = Recipients,
-            //    Messages = Messages
-            //};
-            //data.SaveToXML("");
         }
 
         private ICommand _CreateServerCommand;
@@ -85,7 +67,7 @@ namespace WpfMailSender.ViewModels
                 Password = password
             };
 
-            _ServerStorage.Items.Add(server);
+            _ServersStore.Add(server);
             Servers.Add(server);
         }
 
@@ -119,18 +101,18 @@ namespace WpfMailSender.ViewModels
             server.Password = password;
         }
 
-        private ICommand _DeleteServerCommand;
-        public ICommand DeleteServerCommand => _DeleteServerCommand
-            ??= new LambdaCommand(OnDeleteServerCommandExecuted,
-                CanDeleteServerCommandExecute);
-        private bool CanDeleteServerCommandExecute(object p) => p is Server;
-        private void OnDeleteServerCommandExecuted(object p)
-        {
-            if (!(p is Server server)) return;
-            _ServerStorage.Items.Remove(server);
-            Servers.Remove(server);
+        //private ICommand _DeleteServerCommand;
+        //public ICommand DeleteServerCommand => _DeleteServerCommand
+        //    ??= new LambdaCommand(OnDeleteServerCommandExecuted,
+        //        CanDeleteServerCommandExecute);
+        //private bool CanDeleteServerCommandExecute(object p) => p is Server;
+        //private void OnDeleteServerCommandExecuted(object p)
+        //{
+        //    if (!(p is Server server)) return;
+        //    _ServerStorage.Items.Remove(server);
+        //    Servers.Remove(server);
 
-        }
+        //}
 
         private ICommand _SendMailMessageCommand;
         public ICommand SendMailMessageCommand => _SendMailMessageCommand
@@ -157,5 +139,27 @@ namespace WpfMailSender.ViewModels
                 sender.Address, recipient.Address,
                 message.Tittle, message.Body);
         }
+
+        #region DeleteServerCommand
+
+        private ICommand _DeleteServerCommand;
+
+        public ICommand DeleteServerCommand => _DeleteServerCommand
+            ??= new LambdaCommand(OnDeleteServerCommandExecuted, CanDeleteServerCommandExecute);
+
+        private bool CanDeleteServerCommandExecute(object p) => p is Server || SelectedServer != null;
+
+        private void OnDeleteServerCommandExecuted(object p)
+        {
+            var server = p as Server ?? SelectedServer;
+            if (server is null) return;
+
+            Servers.Remove(server);
+            SelectedServer = Servers.FirstOrDefault();
+
+            //MessageBox.Show($"Удаление сервера {server.Address}!", "Управление серверами");
+        }
+
+        #endregion
     }
 }

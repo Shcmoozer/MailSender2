@@ -9,7 +9,7 @@ namespace WpfMailSender.Data.Stores.InMemory
 {
     class RecipientsStoreInMemory : IStore<Recipient>
     {
-        private readonly TestData _testData;
+        private readonly TestData _testData = new TestData();
         public IEnumerable<Recipient> GetAll() => _testData.Recipients;
 
         public Recipient GetById(int Id) => GetAll().FirstOrDefault(r => r.Id == Id);
