@@ -14,7 +14,7 @@ namespace ConsoleTests
             //var from = new MailAddress("pns95@mail.ru", "Павел");
             //var to = new MailAddress("pns9595@mail.ru", "Павел");
 
-
+            //123
             //var message = new MailMessage(from, to);
             ////var msg = new MailAddress("user@server.ru", "qwe@ASD.ru");
 
