@@ -23,7 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CsvTests", "Tests\CsvTests\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeparateStreamsTests", "Tests\SeparateStreamsTests\SeparateStreamsTests.csproj", "{544C0EFA-E71F-4341-8A2D-B7673B83D844}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileHandlingTests", "Tests\FileHandlingTests\FileHandlingTests.csproj", "{A0BB8DA4-1908-48E7-97A7-613266794485}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileHandlingTests", "Tests\FileHandlingTests\FileHandlingTests.csproj", "{A0BB8DA4-1908-48E7-97A7-613266794485}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HW8_Dop", "Tests\HW8_Dop\HW8_Dop.csproj", "{9E3403CB-A08E-4657-8126-639174ECBCA2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{A0BB8DA4-1908-48E7-97A7-613266794485}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0BB8DA4-1908-48E7-97A7-613266794485}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0BB8DA4-1908-48E7-97A7-613266794485}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E3403CB-A08E-4657-8126-639174ECBCA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E3403CB-A08E-4657-8126-639174ECBCA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E3403CB-A08E-4657-8126-639174ECBCA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E3403CB-A08E-4657-8126-639174ECBCA2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +80,7 @@ Global
 		{2AD67874-8859-4AD1-8B72-1A7637094396} = {81CFE54A-5A9A-440D-BB6F-1B232648CBD0}
 		{544C0EFA-E71F-4341-8A2D-B7673B83D844} = {81CFE54A-5A9A-440D-BB6F-1B232648CBD0}
 		{A0BB8DA4-1908-48E7-97A7-613266794485} = {81CFE54A-5A9A-440D-BB6F-1B232648CBD0}
+		{9E3403CB-A08E-4657-8126-639174ECBCA2} = {81CFE54A-5A9A-440D-BB6F-1B232648CBD0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {00C6CAD2-02B4-4CC3-99A6-A9F2C0CA5273}
