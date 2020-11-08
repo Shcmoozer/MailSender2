@@ -13,6 +13,7 @@
         xmlns:views="clr-namespace:WpfMailSender.Views"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
@@ -176,6 +177,7 @@
                         <StackPanel>
                             <TextBlock Text="Дата задания" HorizontalAlignment="Center"/>
                             <Calendar SelectedDate="2020-09-28"/>
+                            <xctk:TimePicker/>
                             <UniformGrid Columns="1" Margin="5">
                                 <Button Content="Запланировать"/>
                                 <Button Content="Отправить сейчас"

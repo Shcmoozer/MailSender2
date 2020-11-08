@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using MailSender.Interfaces;
+using MailSender.Models;
 using MailSender.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -71,6 +72,12 @@ namespace MailSender
 
             //services.AddSingleton<IStore<Recipient>, RecipientsStoreInMemory>();
             services.AddSingleton<IStore<Recipient>, RecipientsStoreInDB>();
+            services.AddSingleton<IStore<Sender>, SendersStoreInDB>();
+            services.AddSingleton<IStore<Server>, ServersStoreInDB>();
+            services.AddSingleton<IStore<Message>, MessagesStoreInDB>();
+            services.AddSingleton<IStore<SchedulerTask>, SchedulerTasksStoreInDB>();
+
+            services.AddSingleton<IMailSchedulerService, TaskMailSchedulerService>();
             //...
 
 

@@ -13,6 +13,7 @@ using WpfMailSender.Data;
 using WpfMailSender.Models;
 using System.Linq;
 using MailSender.Interfaces;
+using MailSender.Models;
 using WpfMailSender.Services;
 
 
@@ -24,10 +25,17 @@ namespace WpfMailSender.ViewModels
         
         private readonly IStore<Recipient> _RecipientsStore;
         private readonly IMailService _MailService;
-        private readonly IServerStorage _ServerStorage;
-        private readonly ISendersStorage _SendersStorage;
-        private readonly IRecipientsStorage _RecipientsStorage;
-        private readonly IMessagesStorage _MessagesStorage;
+        private readonly IStore<Sender> _SendersStore;
+        private readonly IStore<Message> _MessagesStore;
+        private readonly IStore<Server> _ServersStore;
+        private readonly IStore<SchedulerTask> _SchedulerTasksStore;
+        private readonly IMailSchedulerService _MailSchedulerService;
+        //private readonly IServerStorage _ServerStorage;
+        //private readonly ISendersStorage _SendersStorage;
+        //private readonly IRecipientsStorage _RecipientsStorage;
+        //private readonly IMessagesStorage _MessagesStorage;
+
+
         //public MainWindowViewModel(
         //    IMailService MailService,
         //    IServerStorage ServerStorage, ISendersStorage SendersStorage,
@@ -40,20 +48,36 @@ namespace WpfMailSender.ViewModels
         //    _MessagesStorage = MessagesStorage;
         //}
 
-        public MainWindowViewModel(IMailService MailService, IStore<Recipient> RecipientsStore, IServerStorage ServerStorage, 
-            ISendersStorage SendersStorage, IMessagesStorage MessagesStorage)
+
+
+        public MainWindowViewModel(IMailService MailService,
+            IStore<Recipient> RecipientsStore,
+            IStore<Sender> SendersStore,
+            IStore<Message> MessagesStore,
+            IStore<Server> ServersStore,
+            IStore<SchedulerTask> SchedulerTasksStore,
+            IMailSchedulerService MailSchedulerService)
         {
 
             // Unit of Work
-            _MailService = MailService;
+            //_MailService = MailService;
             //_RecipientsStore = RecipientsStore;
-            _ServerStorage = ServerStorage;
-            _SendersStorage = SendersStorage;
-            _MessagesStorage = MessagesStorage;
+            //_ServerStorage = ServerStorage;
+            //_SendersStorage = SendersStorage;
+            //_MessagesStorage = MessagesStorage;
             //Servers = new ObservableCollection<Server>(Servers);
             //Senders = new ObservableCollection<Sender>(Senders);
-            Recipients = new ObservableCollection<Recipient>(RecipientsStore.GetAll());
+            //Recipients = new ObservableCollection<Recipient>(RecipientsStore.GetAll());
             //Messages = new ObservableCollection<Message>(Messages);
+
+            _RecipientsStore = RecipientsStore;
+            _SendersStore = SendersStore;
+            _MessagesStore = MessagesStore;
+            _ServersStore = ServersStore;
+            _SchedulerTasksStore = SchedulerTasksStore;
+
+            _MailService = MailService;
+            _MailSchedulerService = MailSchedulerService;
 
         }
 
@@ -125,6 +149,7 @@ namespace WpfMailSender.ViewModels
             get => _SelectedMessage;
             set => Set(ref _SelectedMessage, value);
         }
+
 
     }
 }
