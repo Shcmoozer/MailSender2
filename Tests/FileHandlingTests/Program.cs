@@ -30,11 +30,11 @@ namespace FileHandlingTests
             Console.ReadKey();
         }
 
-        private static float ParallelMethod(string items)
+        private static async Task<float> ParallelMethod(string items)
         {
             float result = 0;
-            var file = new StreamReader(items);
-            var line = file.ReadLine();
+            using var file = new StreamReader(items);
+            var line = await file.ReadLineAsync().ConfigureAwait(false);
 
             if (line != null)
             {
@@ -61,7 +61,7 @@ namespace FileHandlingTests
         public static async Task<List<float>> ProcessDataTestAsync(FileInfo[] files)
         {
             var listResult = new List<float>();
-            var tasks = files.Select(line => Task.Run(() => ParallelMethod(line.ToString())));
+            var tasks = files.Select(line => ParallelMethod(line.ToString()));
 
             Console.WriteLine(">>> Подготовка к запуску обработки файлов...");
 
